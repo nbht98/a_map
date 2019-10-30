@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Folder><name>KML</name>
+        <Placemark>
+            <name>PINE CREEK</name>
+            <MultiGeometry>
+                <Polygon>
+                    <outerBoundaryIs>
+                        <LinearRing>
+                            <coordinates>131.734516,-13.7319149951 131.734522272,-13.8084009326 131.734531008,-13.9152410041 131.76757424,-13.9152404676 131.917864,-13.9152380071 131.917859328,-13.8084622231 131.917856,-13.7319060041 131.9098632,-13.7319063926 131.780612192,-13.7319127381 131.734516,-13.7319149951</coordinates>
+                        </LinearRing>
+                    </outerBoundaryIs>
+                </Polygon>
+            </MultiGeometry>
+        </Placemark>
+</Folder>
+</Document>
+</kml>
