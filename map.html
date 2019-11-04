@@ -110,28 +110,28 @@
         // var testimonial = document.getElementById('contentWindow');
         // testimonial.innerHTML = content;
       });
-      // kmlLayer1.addListener('click', function (event) {
-      //   console.log(event);
-      //   const select = document.querySelector("#select");
-      //   const childDiv = document.createElement('div');
-      //   childDiv.innerHTML = event.featureData.name
+      kmlLayerPostcode.addListener('click', function (event) {
+        console.log(event);
+        const select = document.querySelector("#select");
+        const childDiv = document.createElement('div');
+        childDiv.innerHTML = event.featureData.name
 
-      //   const deleteButton = document.createElement('button');
-      //   deleteButton.setAttribute('onclick', "removeElement(event, this)");
-      //   deleteButton.innerHTML = 'remove';
-      //   childDiv.appendChild(deleteButton);
+        const deleteButton = document.createElement('button');
+        deleteButton.setAttribute('onclick', "removeElement(event, this)");
+        deleteButton.innerHTML = 'remove';
+        childDiv.appendChild(deleteButton);
         
-      //   select.appendChild(childDiv);
-      // });
+        select.appendChild(childDiv);
+      });
 
       // 132.48892950000004, a: -23.403450516441584
 
     }
     
-    // function removeElement(e, that) {
-    //   const grandFather = document.querySelector('#select');
-    //   grandFather.removeChild(that.parentNode);
-    // }
+    function removeElement(e, that) {
+      const grandFather = document.querySelector('#select');
+      grandFather.removeChild(that.parentNode);
+    }
   </script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpbpMue7fAQ6iw_n83_Gl1ksJ3aIcA7gc&libraries=drawing&callback=initMap">
