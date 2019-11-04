@@ -30,6 +30,7 @@
       z-index: 10;
     }
   </style>
+  <script src="geoxml3.js"></script>
 </head>
 
 <body>
@@ -43,95 +44,128 @@
         zoom: 5,
         center: myLatlng
       });
-      var src = 'https://raw.githubusercontent.com/nbht98/a_map/master/au_state.kml';
-      // var src = "https://drive.google.com/uc?export=download&id=1O3x2GXB7le6p0i3zMf13NGheJdTRvyVz"
-      var src_state = ""
-      var src_postcode = ""
-      var kmlLayer = new google.maps.KmlLayer(src, {
-        suppressInfoWindows: true,
-        preserveViewport: true,
-        map: map
-      });
+      // var myParser = new geoXML3.parser({map: map});
+      // myParser.parse('https://raw.githubusercontent.com/nbht98/a_map/master/au_state.kml');    
+      // var list = []
+      var ketqua = {};
+      for (i = 2000; i < 2100; i++) {
+        // list.push("https://raw.githubusercontent.com/nbht98/a_map/master/NSW_postcode/"+ i.toString() +".kml")
+        //   var kmlLayer = new google.maps.KmlLayer(a, {
+        //   suppressInfoWindows: true,
+        //   preserveViewport: true,
+        //   map: map
+        // });
+        a = "https://raw.githubusercontent.com/nbht98/a_map/master/NSW_postcode/" + i.toString() + ".kml"
 
-      var kmlLayerState = new google.maps.KmlLayer(src_state, {
-        suppressInfoWindows: true,
-        preserveViewport: true,
-        map: map
-      })
-
-      var kmlLayerPostcode = new google.maps.KmlLayer(src_postcode, {
-        suppressInfoWindows: true,
-        preserveViewport: true,
-        map: map
-      })
-
-      // var marker = new google.maps.Marker({
-      //   position: myLatlng,
-      //   map: map,
-      //   title: 'Click to zoom'
+        let myParser = new geoXML3.parser({ map: map });
+        myParser.parse(a);
+        ketqua[i] = myParser;
+      }
+      ketqua[2000].parse("https://raw.githubusercontent.com/nbht98/a_map/master/NSW_postcode/" + '2100' + ".kml")
+      // ketqua[2000].hideDocument( ketqua[2000].docsByUrl);
+      console.log(ketqua[2000].docsByUrl)
+      // var a = "https://raw.githubusercontent.com/nbht98/a_map/master/NSW_postcode/" + '2000' + ".kml"
+      // var kmlLayer = new google.maps.KmlLayer(a, {
+      //   suppressInfoWindows: true,
+      //   preserveViewport: true,
+      //   map: map
       // });
 
 
-      // map.addListener('center_changed', function () {
-      //   // 3 seconds after the center of the map has changed, pan back to the
-      //   // marker.
-      //   window.setTimeout(function () {
-      //     map.panTo(marker.getPosition());
-      //   }, 3000);
+
+
+
+      // var src = ""
+      // var src = 'https://raw.githubusercontent.com/nbht98/a_map/master/au_state.kml';
+      // // var src = "https://drive.google.com/uc?export=download&id=1O3x2GXB7le6p0i3zMf13NGheJdTRvyVz"
+      // var src_state = ""
+      // var src_postcode = ""
+      // var kmlLayer = new google.maps.KmlLayer(src, {
+      //   suppressInfoWindows: true,
+      //   preserveViewport: true,
+      //   map: map
       // });
 
-      // marker.addListener('click', function () {
-      //   map.setZoom(8);
-      //   map.setCenter(marker.getPosition());
+
+      // var kmlLayerState = new google.maps.KmlLayer(src_state, {
+      //   suppressInfoWindows: true,
+      //   preserveViewport: true,
+      //   map: map
+      // })
+
+      // var kmlLayerPostcode = new google.maps.KmlLayer(src_postcode, {
+      //   suppressInfoWindows: true,
+      //   preserveViewport: true,
+      //   map: map
+      // })
+
+      // // var marker = new google.maps.Marker({
+      // //   position: myLatlng,
+      // //   map: map,
+      // //   title: 'Click to zoom'
+      // // });
+
+
+      // // map.addListener('center_changed', function () {
+      // //   // 3 seconds after the center of the map has changed, pan back to the
+      // //   // marker.
+      // //   window.setTimeout(function () {
+      // //     map.panTo(marker.getPosition());
+      // //   }, 3000);
+      // // });
+
+      // // marker.addListener('click', function () {
+      // //   map.setZoom(8);
+      // //   map.setCenter(marker.getPosition());
+      // // });
+      // kmlLayer.addListener('click', function (event) {
+      //   // var content = event.featureData.info_window_html;
+      //   // console.log(event.featureData.name)
+      //   // map.setCenter(event.latLng);
+      //   // map.center = { lat: -26.274383912552878, lng: 121.76627325000004 };
+      //   // console.log(map.center)
+      //   // kmlLayer.setUrl("https://drive.google.com/uc?export=download&id=1Kd1o9iTmLdFr24F1gkcznzZgzc534ztS");
+      //   // console.log(event.featureData.name)
+      //   src_postcode = "https://raw.githubusercontent.com/nbht98/a_map/master/" + event.featureData.name + "_postcode/"
+      //   kmlLayerState.setUrl("https://raw.githubusercontent.com/nbht98/a_map/master/" + event.featureData.name + '.kml')
+
+      //   // console.log(kmlLayer1.url)
+      //   // map.setCenter({ lat: -33.8688, lng: 151.2093 })
+      //   // map.setZoom(11)
+      //   // var testimonial = document.getElementById('contentWindow');
+      //   // testimonial.innerHTML = content;
       // });
-      kmlLayer.addListener('click', function (event) {
-        // var content = event.featureData.info_window_html;
-        // console.log(event.featureData.name)
-        // map.setCenter(event.latLng);
-        // map.center = { lat: -26.274383912552878, lng: 121.76627325000004 };
-        // console.log(map.center)
-        // kmlLayer.setUrl("https://drive.google.com/uc?export=download&id=1Kd1o9iTmLdFr24F1gkcznzZgzc534ztS");
-        // console.log(event.featureData.name)
-        src_postcode = "https://raw.githubusercontent.com/nbht98/a_map/master/"+ event.featureData.name +"_postcode/"
-        kmlLayerState.setUrl("https://raw.githubusercontent.com/nbht98/a_map/master/" + event.featureData.name + '.kml')
+      // kmlLayerState.addListener('click', function (event) {
+      //   console.log(event.featureData.name)
+      //   kmlLayerPostcode.setUrl(src_postcode + event.featureData.name + '.kml')
+      //   // console.log(kmlLayer1.url)
+      //   // map.setCenter({ lat: -33.8688, lng: 151.2093 })
+      //   // map.setZoom(11)
+      //   // var testimonial = document.getElementById('contentWindow');
+      //   // testimonial.innerHTML = content;
+      // });
+      // // kmlLayer1.addListener('click', function (event) {
+      // //   console.log(event);
+      // //   const select = document.querySelector("#select");
+      // //   const childDiv = document.createElement('div');
+      // //   childDiv.innerHTML = event.featureData.name
 
-        // console.log(kmlLayer1.url)
-        // map.setCenter({ lat: -33.8688, lng: 151.2093 })
-        // map.setZoom(11)
-        // var testimonial = document.getElementById('contentWindow');
-        // testimonial.innerHTML = content;
-      });
-      kmlLayerState.addListener('click', function (event) {
-        console.log(event.featureData.name)
-        kmlLayerPostcode.setUrl(src_postcode + event.featureData.name + '.kml')
-        // console.log(kmlLayer1.url)
-        // map.setCenter({ lat: -33.8688, lng: 151.2093 })
-        // map.setZoom(11)
-        // var testimonial = document.getElementById('contentWindow');
-        // testimonial.innerHTML = content;
-      });
-      kmlLayerPostcode.addListener('click', function (event) {
-        console.log(event);
-        const select = document.querySelector("#select");
-        const childDiv = document.createElement('div');
-        childDiv.innerHTML = event.featureData.name
+      // //   const deleteButton = document.createElement('button');
+      // //   deleteButton.setAttribute('onclick', "removeElement(event, this)");
+      // //   deleteButton.innerHTML = 'remove';
+      // //   childDiv.appendChild(deleteButton);
 
-        const deleteButton = document.createElement('button');
-        deleteButton.setAttribute('onclick', "removeElement(event, this)");
-        deleteButton.innerHTML = 'remove';
-        childDiv.appendChild(deleteButton);
-        
-        select.appendChild(childDiv);
-      });
+      // //   select.appendChild(childDiv);
+      // // });
 
-      // 132.48892950000004, a: -23.403450516441584
+      // // 132.48892950000004, a: -23.403450516441584
 
     }
-    
-    function removeElement(e, that) {
-      const grandFather = document.querySelector('#select');
-      grandFather.removeChild(that.parentNode);
-    }
+
+    // function removeElement(e, that) {
+    //   const grandFather = document.querySelector('#select');
+    //   grandFather.removeChild(that.parentNode);
+    // }
   </script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpbpMue7fAQ6iw_n83_Gl1ksJ3aIcA7gc&libraries=drawing&callback=initMap">
