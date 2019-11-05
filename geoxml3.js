@@ -274,12 +274,12 @@ geoXML3.parser = function (options) {
       }
     },
     line: {
-      color: 'ff0000ff', // white (KML default)
+      color: 'ff000000', // white (KML default)
       colorMode: 'normal',
       width: 1.0
     },
     poly: {
-      color: 'a0B4B478', // white (KML default)
+      color: 'a0336699', // white (KML default)
       colorMode: 'normal',
       fill: true,
       outline: true

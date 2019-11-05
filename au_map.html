@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Maps</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+      height: 100%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* #select {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 300px;
+      height: 100px;
+      background-color: #fff;
+      z-index: 10;
+    } */
+
+    .location {
+      width: 400px;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+
+    .location tbody {
+      display: block;
+      height: 100px;
+      /* Just for the demo          */
+      overflow-y: auto;
+      /* Trigger vertical scroll    */
+      overflow-x: hidden;
+    }
+
+    .location thead tr {
+      display: block;
+    }
+
+    .location thead {
+      background: black;
+      color: #fff;
+    }
+
+    .location th,
+    .location td {
+      padding: 5px;
+      text-align: left;
+      width: 200px;
+    }
+  </style>
+  <script src="geoxml3.js"></script>
+</head>
+
+<body>
+  <table class="location">
+    <thead>
+      <tr>
+        <th>Suburb</th>
+        <th>Postcode</th>
+      </tr>
+    </thead>
+    <tbody id="body_location">
+    </tbody>
+  </table>
+
+
+
+  <!-- <div id="select" style="overflow-y: scroll"></div> -->
+  <div id="map"></div>
+  <script>
+    function initMap() {
+      var areas = new Array()
+      var myLatlng = { lat: -25.363, lng: 131.044 };
+      var area = {}
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 5,
+        center: myLatlng
+      });
+
+      var src = 'https://raw.githubusercontent.com/nbht98/a_map/master/au_state.kml';
+      var src_state = ""
+      var src_postcode = ""
+      var postcode = ""
+      var kmlLayer = new google.maps.KmlLayer(src, {
+        suppressInfoWindows: true,
+        preserveViewport: true,
+        map: map
+      });
+
+      var kmlLayerState = new google.maps.KmlLayer(src_state, {
+        suppressInfoWindows: true,
+        preserveViewport: true,
+        map: map
+      })
+
+      var kmlLayerPostcode = new google.maps.KmlLayer(src_postcode, {
+        suppressInfoWindows: true,
+        preserveViewport: true,
+        map: map
+      })
+
+      function useTheData(doc) {
+        console.log(doc[0].placemarks)
+        google.maps.event.addListener(
+          doc[0].placemarks[0].polygon,
+          "click",
+          function () {
+            area[doc[0].placemarks[0].name].hideDocument(doc[0])
+            // alert(doc[0].placemarks[i]);
+            // console.log(areas)
+            areas.splice(areas.indexOf(doc[0].placemarks[0].name), 1)
+            // console.log(areas)
+
+            var elem1 = document.getElementById(doc[0].placemarks[0].name);
+            var elem2 = document.getElementById(doc[0].placemarks[0].name + "_postcode");
+
+            elem1.parentNode.removeChild(elem1);
+            elem2.parentNode.removeChild(elem2);
+
+            // grandParent.removeChild(grandParent.parentNode);
+          });
+        //alert(docs[0].placemarks[i].name);
+
+      }
+
+
+      kmlLayer.addListener('click', function (event) {
+        src_postcode = "https://raw.githubusercontent.com/nbht98/a_map/master/" + event.featureData.name + "_postcode/"
+        kmlLayerState.setUrl("https://raw.githubusercontent.com/nbht98/a_map/master/" + event.featureData.name + '.kml')
+      });
+
+      kmlLayerState.addListener('click', function (event) {
+        postcode = event.featureData.name;
+        kmlLayerPostcode.setUrl(src_postcode + event.featureData.name + '.kml')
+      });
+
+      kmlLayerPostcode.addListener('click', function (event) {
+        if (areas.indexOf(event.featureData.name) < 0) {
+          // const select = document.querySelector("#select");
+          // const childDiv = document.createElement('div');
+          // childDiv.innerHTML = event.featureData.name
+          // childDiv.setAttribute('id', event.featureData.name)
+          // const deleteButton = document.createElement('button');
+          // deleteButton.setAttribute('onclick', "removeElement(event, this)");
+          // deleteButton.innerHTML = 'remove';
+          // childDiv.appendChild(deleteButton);
+          // select.appendChild(childDiv);
+          areas.push(event.featureData.name)
+
+          const sub = document.getElementById("body_location");
+          var tr = document.createElement('tr');
+          sub.appendChild(tr);
+          var td1 = document.createElement('td');
+          td1.innerHTML = event.featureData.name
+          td1.setAttribute('id', event.featureData.name)
+          var td2 = document.createElement('td');
+          td2.innerHTML = postcode
+          td2.setAttribute('id', event.featureData.name + '_postcode')
+          tr.appendChild(td1);
+          tr.appendChild(td2);
+
+
+
+          var myParser = new geoXML3.parser({
+            map: map,
+            zoom: false,
+            suppressInfoWindows: true,
+            afterParse: useTheData
+          });
+          filename = 'https://raw.githubusercontent.com/aidanmorgan/aus_suburb_kml/master/NSW/' + event.featureData.name + '.kml';
+          myParser.parse(filename);
+          area[event.featureData.name] = myParser
+        }
+      });
+    }
+
+    // function removeElement(e, that) {
+    //   // areas.splice(areas.indexOf(), 1)
+    //   console.log(that.parentNode)
+    //   const grandFather = document.querySelector('#select');
+    //   grandFather.removeChild(that.parentNode);
+    // }
+
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpbpMue7fAQ6iw_n83_Gl1ksJ3aIcA7gc&libraries=drawing&callback=initMap">
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- state: https://drive.google.com/uc?export=download&id=1qwHq8CyQU1xA8zKlCATsYC_h78a26hka -->
+
+<!-- nws: https://drive.google.com/uc?export=download&id=1Kd1o9iTmLdFr24F1gkcznzZgzc534ztS -->
+
+<!-- sydney: 33.8688° S, 151.2093° E -->
